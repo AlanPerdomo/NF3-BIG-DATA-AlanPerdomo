@@ -1,7 +1,9 @@
 import pandas as pd
 
-url = 'https://raw.githubusercontent.com/AlanPerdomo/NF3-BIG-DATA-AlanPerdomo/cursos-prouni.csv'
+url = 'https://raw.githubusercontent.com/AlanPerdomo/NF3-BIG-DATA-AlanPerdomo/main/cursos-prouni.csv'
 data = pd.read_csv(url)
+
+
 
 print(data)
 
