@@ -1,6 +1,6 @@
 import pandas as pd
 
-data = pd.read_csv('world_alcohol.csv')
+data = pd.read_csv('1\world_alcohol.csv')
 
 # A)
 tipoBebidas = data.groupby('Beverage Types')['Beverage Types'].count()
