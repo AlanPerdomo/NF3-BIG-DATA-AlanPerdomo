@@ -2,9 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 url = "https://raw.githubusercontent.com/AlanPerdomo/NF3-BIG-DATA-AlanPerdomo/main/2/cursos-prouni.csv"
-data = pd.read_csv(url,encoding='latin-1')
+data = pd.read_csv(url, encoding="latin-1")
+data["curso_busca"] = data["curso_busca"].replace("MatemÃ¡tica", "Matematica")
+data["grau"] = data["grau"].replace("TecnolÃ³gico", "Tecnologico")
 
-# A)
+# A) ----------------------------
+print("\nQuestao A:")
 colunas_notas = [
     "nota_integral_ampla",
     "nota_integral_cotas",
@@ -13,49 +16,65 @@ colunas_notas = [
 ]
 data[colunas_notas] = data[colunas_notas].fillna(0.0)
 
-# B)
-grupo_grau = data.groupby("grau")
+# B) ----------------------------
+print("\nQuestao B:")
+grupoGrau = data.groupby("grau")
+for grau, grupo in grupoGrau:
+    print(grau)
+    print(grupo)
+    print()
 
-# C)
-cursos = ["Matemática", "Medicina", "Pedagogia"]
-dataC = data[data["nome"].isin(cursos)]
-grupoCurso = dataC.groupby("nome")
+# C) ----------------------------
+print("\nQuestao C:")
+cursosInteresse = ['Matematica', 'Medicina', 'Pedagogia']
 
-# for nome, grupo in grupoCurso:
-#    print(f"Dados para o curso {nome}:")
-#    print(grupo)
-#    print("\n")
+for curso in cursosInteresse:
+    grupo_curso = data[data['curso_busca'] == curso]
+    print(curso)
+    print(grupo_curso)
+    print('\n')
 
-# D)
-mediaNotaCorte = data.groupby("uf_busca")["nota_integral_ampla"].mean()
+# D) ----------------------------
+print("\nQuestao D:")
+grupoEstados = data.groupby("uf_busca")
+mediaNotaCortePorEstado = grupoEstados[[
+    "nota_integral_ampla",
+    "nota_integral_cotas",
+    "nota_parcial_ampla",
+    "nota_parcial_cotas",
+]].mean()
+print(mediaNotaCortePorEstado)
 
-# E)
-cursosTecnologicos = data[data["grau"] == "Tecnológico"]
-grupoTecnologicos = cursosTecnologicos.groupby("nome")
+# E) ----------------------------
+print("\nQuestao E:")
 
-# F)
+cursosTecnologicos = data.groupby("grau").get_group("Tecnologico")
+print(cursosTecnologicos)
+
+# F) ----------------------------
+print("\nQuestao F:")
 data = data.drop("cidade_filtro", axis=1)
 
-# G)
+# G) ----------------------------
+print("\nQuestao G:")
 cursoMedicina = data[data["nome"] == "Medicina"]
 mediaMensalidade = cursoMedicina["mensalidade"].mean()
 
 print(f"Média das mensalidades dos cursos de Medicina: R$ { mediaMensalidade:.2f}")
 
-# H)
-cursosTempoIntegral = data[data["turno"] == "Integral"]
-mediaNotaCorteIntegral = cursosTempoIntegral["nota_integral_ampla"].mean()
+# H) ----------------------------
+print("\nQuestao H:")
+mediaNotaCorteIntegral = data.loc[data['turno'] == 'Integral', 'nota_integral_cotas'].mean()
+print(f"Média das notas de corte dos cursos de tempo integral: {mediaNotaCorteIntegral:.2f}")
 
-print(
-    f"Média das notas de corte dos cursos de tempo integral: {mediaNotaCorteIntegral:.2f}"
-)
-
-# I)
+# I) ----------------------------
+print("\nQuestao I:")
 bacharelado = data[data["grau"] == "Bacharelado"]
 estatisticas = bacharelado["nota_integral_ampla"].describe()
 print(estatisticas)
 
-# J)
+# J) ----------------------------
+print("\nQuestao J:")
 colunas = ["grau", "nota_integral_cotas"]
 dataFiltrado = data[colunas]
 
