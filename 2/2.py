@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 url = "https://raw.githubusercontent.com/AlanPerdomo/NF3-BIG-DATA-AlanPerdomo/main/2/cursos-prouni.csv"
-data = pd.read_csv(url)
+data = pd.read_csv(url,encoding='latin-1')
 
 # A)
 colunas_notas = [
